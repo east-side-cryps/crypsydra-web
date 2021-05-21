@@ -220,4 +220,20 @@ export const globalStyle = `
   textarea {
     font-size: 16px;
   }
+  @keyframes pulse-green {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(51, 217, 178, 0.7);
+    }
+
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(51, 217, 178, 0);
+    }
+
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(51, 217, 178, 0);
+    }
+  }
 `;
