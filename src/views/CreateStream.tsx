@@ -6,16 +6,12 @@ import {
     Text,
     FormControl,
     Input,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
     FormLabel, Button, useToast
 } from "@chakra-ui/react";
 import {useWalletConnect} from "../context/WalletConnectContext";
 import {
     DEFAULT_GAS_SCRIPTHASH,
+    DEFAULT_GAS_PRECISION,
     DEFAULT_NEO_NETWORK_MAGIC,
     DEFAULT_NEO_RPC_ADDRESS,
     DEFAULT_SC_SCRIPTHASH
@@ -46,7 +42,7 @@ export default function CreateStream() {
     const n3Helper = new N3Helper(DEFAULT_NEO_RPC_ADDRESS, DEFAULT_NEO_NETWORK_MAGIC)
 
     const [recipientAddress, setRecipientAddress] = useState('')
-    const [totalAmountOfGas, setTotalAmountOfGas] = useState(0)
+    const [totalAmountOfGas, setTotalAmountOfGas] = useState('')
     const [startDatetime, setStartDatetime] = useState('')
     const [endDatetime, setEndDatetime] = useState('')
     const [loading, setLoading] = useState<string | null>('Checking WalletConnect Session')
@@ -93,7 +89,7 @@ export default function CreateStream() {
         const contractScriptHash = DEFAULT_SC_SCRIPTHASH
         const from = {type: 'Address', value: senderAddress}
         const contract = {type: 'ScriptHash', value: contractScriptHash}
-        const value = {type: 'Integer', value: totalAmountOfGas}
+        const value = {type: 'Integer', value: Math.ceil(Number(totalAmountOfGas) * DEFAULT_GAS_PRECISION)}
 
         const contractMethod = {type: 'String', value: 'createStream'}
         const to = {type: 'Address', value: recipientAddress}
@@ -132,15 +128,10 @@ export default function CreateStream() {
             </FormControl>
             <FormControl style={formControlStyle} isRequired>
                 <FormLabel style={formLabelStyle}>Total Amount of Gas</FormLabel>
-                <NumberInput
+                <Input style={inputStyle}
                     value={totalAmountOfGas}
-                    onChange={(value) => setTotalAmountOfGas(Number(value))}>
-                    <NumberInputField style={inputStyle}/>
-                    <NumberInputStepper>
-                        <NumberIncrementStepper/>
-                        <NumberDecrementStepper/>
-                    </NumberInputStepper>
-                </NumberInput>
+                    onChange={(e) => setTotalAmountOfGas(e.target.value)}>
+                </Input>
             </FormControl>
             <FormControl style={formControlStyle}>
                 <FormLabel style={formLabelStyle}>Start Datetime</FormLabel>

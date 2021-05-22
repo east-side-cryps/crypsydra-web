@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import Neon, {sc, wallet} from "@cityofzion/neon-js";
 import {
     DEFAULT_GAS_SCRIPTHASH,
+    DEFAULT_GAS_PRECISION,
     DEFAULT_NEO_NETWORK_MAGIC,
     DEFAULT_NEO_RPC_ADDRESS,
     DEFAULT_SC_SCRIPTHASH
@@ -117,7 +118,7 @@ export default function StreamDetails() {
 
     const streamedValue = () => {
         if (stream) {
-            return Math.floor(streamedPct() * stream.deposit)
+            return streamedPct() * stream.deposit
         }
         return 0
     }
@@ -153,6 +154,7 @@ export default function StreamDetails() {
     const withdraw = async (amountToWithdraw: number) => {
         setWithdrawOpen(false)
         if (!walletConnectCtx || amountToWithdraw <= 0) return
+        amountToWithdraw = amountToWithdraw * DEFAULT_GAS_PRECISION
 
         const streamId = {type: 'Integer', value: Number(id)}
         const value = {type: 'Integer', value: amountToWithdraw}
@@ -179,7 +181,7 @@ export default function StreamDetails() {
         const notificationValues = notification.state.value as ContractParamJson[]
         if (!notificationValues || notificationValues.length < 3) return
         const recipient = wallet.getAddressFromScriptHash(Neon.u.base642hex(notificationValues[1].value as string))
-        const amount = Number(notificationValues[2].value)
+        const amount = (Number(notificationValues[2].value) / DEFAULT_GAS_PRECISION).toFixed(8)
 
         toast({
             title: "Success!",
@@ -254,17 +256,17 @@ export default function StreamDetails() {
             <Flex direction="column" w="100%" maxW="60rem" fontWeight="bold" fontSize="0.875rem" color="#004e87" px="0.5rem">
                 <Flex mb="0.5rem">
                     <Flex direction="column">
-                        <Text fontSize="1.5rem">{withdrawnValue()}</Text>
+                        <Text fontSize="1.5rem">{(withdrawnValue() / DEFAULT_GAS_PRECISION).toFixed(8)}</Text>
                         <Text>Gas Withdrawn</Text>
                     </Flex>
                     <Spacer/>
                     <Flex direction="column" textAlign="center">
-                        <Text fontSize="1.5rem">{streamedValue()}</Text>
+                        <Text fontSize="1.5rem">{(streamedValue() / DEFAULT_GAS_PRECISION).toFixed(8)}</Text>
                         <Text>Gas Streamed</Text>
                     </Flex>
                     <Spacer/>
                     <Flex direction="column" textAlign="right">
-                        <Text fontSize="1.5rem">{stream?.deposit ?? "-"}</Text>
+                        <Text fontSize="1.5rem">{((stream?.deposit ?? 0) / DEFAULT_GAS_PRECISION).toFixed(8)}</Text>
                         <Text>Gas Total</Text>
                     </Flex>
                 </Flex>

@@ -8,11 +8,8 @@ import {
     ModalOverlay,
     ModalContent,
     FormLabel,
-    NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper, FormControl, Button
+    Input,
+    FormControl, Button
 } from "@chakra-ui/react";
 import {useState} from "react";
 
@@ -31,15 +28,15 @@ const inputStyle = {
 }
 
 export default function WithdrawModal(props: {isOpen: boolean, onClose: (value: number) => void}) {
-    const [amountOfGas, setAmountOfGas] = useState(0)
+    const [amountOfGas, setAmountOfGas] = useState('')
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        props.onClose(amountOfGas)
+        props.onClose(Number(amountOfGas))
     }
 
     return (
-        <Modal isOpen={props.isOpen} onClose={() => props.onClose(amountOfGas)}>
+        <Modal isOpen={props.isOpen} onClose={() => props.onClose(Number(amountOfGas))}>
             <ModalOverlay/>
             <ModalContent>
                 <ModalHeader>Withdraw</ModalHeader>
@@ -48,15 +45,10 @@ export default function WithdrawModal(props: {isOpen: boolean, onClose: (value: 
                     <Flex as="form" onSubmit={handleSubmit} direction="column" align="center">
                         <FormControl style={formControlStyle} isRequired>
                             <FormLabel style={formLabelStyle}>Amount of Gas</FormLabel>
-                            <NumberInput
+                            <Input style={inputStyle}
                                 value={amountOfGas}
-                                onChange={(value) => setAmountOfGas(Number(value))}>
-                                <NumberInputField style={inputStyle}/>
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper/>
-                                    <NumberDecrementStepper/>
-                                </NumberInputStepper>
-                            </NumberInput>
+                                onChange={(event) => setAmountOfGas(event.target.value)}>
+                            </Input>
                         </FormControl>
                         <Button type="submit" w="100%" maxWidth="35rem" bg="#0094ff" textColor="white" fontSize="2rem" h="4rem"
                                 _hover={{backgroundColor: '#0081dc'}}>
