@@ -125,14 +125,19 @@ export default function StreamDetails() {
     const updateCountDown = async () => {
         if (stream?.stop) {
             await sleep(1000)
-            setCountdown(
-                formatDuration(
-                    intervalToDuration({
-                        start: new Date().getTime(),
-                        end: stream.stop
-                    })
+            const now = new Date().getTime()
+            if (now < stream.stop) {
+                setCountdown(
+                    formatDuration(
+                        intervalToDuration({
+                            start: now,
+                            end: stream.stop
+                        })
+                    )
                 )
-            )
+            } else {
+                setCountdown("Stream completed")
+            }
         }
     }
 
