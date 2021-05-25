@@ -8,11 +8,13 @@ import {
     ModalOverlay,
     ModalContent,
     FormLabel,
+    FormControl,
+    Button,
     NumberInput,
     NumberInputField,
     NumberInputStepper,
     NumberIncrementStepper,
-    NumberDecrementStepper, FormControl, Button
+    NumberDecrementStepper
 } from "@chakra-ui/react";
 import {useState} from "react";
 
@@ -31,15 +33,15 @@ const inputStyle = {
 }
 
 export default function WithdrawModal(props: {isOpen: boolean, onClose: (value: number) => void}) {
-    const [amountOfGas, setAmountOfGas] = useState(0)
+    const [amountOfGas, setAmountOfGas] = useState('')
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        props.onClose(amountOfGas)
+        props.onClose(Number(amountOfGas))
     }
 
     return (
-        <Modal isOpen={props.isOpen} onClose={() => props.onClose(amountOfGas)}>
+        <Modal isOpen={props.isOpen} onClose={() => props.onClose(Number(amountOfGas))}>
             <ModalOverlay/>
             <ModalContent>
                 <ModalHeader>Withdraw</ModalHeader>
@@ -49,8 +51,10 @@ export default function WithdrawModal(props: {isOpen: boolean, onClose: (value: 
                         <FormControl style={formControlStyle} isRequired>
                             <FormLabel style={formLabelStyle}>Amount of Gas</FormLabel>
                             <NumberInput
+                                step={0.00000001}
+                                precision={8}
                                 value={amountOfGas}
-                                onChange={(value) => setAmountOfGas(Number(value))}>
+                                onChange={(value) => setAmountOfGas(value)}>
                                 <NumberInputField style={inputStyle}/>
                                 <NumberInputStepper>
                                     <NumberIncrementStepper/>
