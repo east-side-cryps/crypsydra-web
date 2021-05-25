@@ -300,7 +300,7 @@ export default function StreamDetails() {
                     <Link onClick={share} color="white" bg="#004e87" mr="1rem"
                           flex="1" p={["0.4rem", "0.6rem"]}
                           textAlign="center"
-                          _hover={{textDecoration: 'none', backgroundColor: 'gray.100'}}>
+                          _hover={{textDecoration: 'none', backgroundColor: '#0081dc'}}>
                         <Text fontSize="1.6rem" m={0}>Share</Text>
                     </Link>
                     <Link onClick={cancelStream} color="white" bg="#004e87"

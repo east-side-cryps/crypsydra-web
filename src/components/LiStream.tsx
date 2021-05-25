@@ -3,6 +3,7 @@ import {Flex, Text} from "@chakra-ui/react";
 import {Stream} from "../types/Stream";
 import {format} from "date-fns";
 import {Link} from "react-router-dom";
+import {DEFAULT_GAS_PRECISION} from "../constants";
 
 export default function LiStream(props: { stream: Stream }) {
 
@@ -24,7 +25,7 @@ export default function LiStream(props: { stream: Stream }) {
                     <Text color="#004e87" fontWeight="bold" fontSize="0.8rem">{startFormatted()}</Text>
                     <Text color="#004e87" fontWeight="bold" fontSize="0.8rem">{endFormatted()}</Text>
                 </Flex>
-                <Text color="#004e87" fontWeight="bold" fontSize="1.6rem">{props.stream.deposit} GAS</Text>
+                <Text color="#004e87" fontWeight="bold" fontSize="1.2rem">{(props.stream.deposit / DEFAULT_GAS_PRECISION).toFixed(8)} GAS</Text>
             </Flex>
         </Link>
     );

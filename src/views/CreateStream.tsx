@@ -6,7 +6,14 @@ import {
     Text,
     FormControl,
     Input,
-    FormLabel, Button, useToast
+    FormLabel,
+    Button,
+    useToast,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper
 } from "@chakra-ui/react";
 import {useWalletConnect} from "../context/WalletConnectContext";
 import {
@@ -128,10 +135,17 @@ export default function CreateStream() {
             </FormControl>
             <FormControl style={formControlStyle} isRequired>
                 <FormLabel style={formLabelStyle}>Total Amount of Gas</FormLabel>
-                <Input style={inputStyle}
+                <NumberInput
+                    step={0.00000001}
+                    precision={8}
                     value={totalAmountOfGas}
-                    onChange={(e) => setTotalAmountOfGas(e.target.value)}>
-                </Input>
+                    onChange={(value) => setTotalAmountOfGas(value)}>
+                    <NumberInputField style={inputStyle}/>
+                    <NumberInputStepper>
+                        <NumberIncrementStepper/>
+                        <NumberDecrementStepper/>
+                    </NumberInputStepper>
+                </NumberInput>
             </FormControl>
             <FormControl style={formControlStyle}>
                 <FormLabel style={formLabelStyle}>Start Datetime</FormLabel>
