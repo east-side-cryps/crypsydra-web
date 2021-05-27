@@ -44,7 +44,7 @@ export default function App() {
 
                             <Flex align="center" bg="#004e87" p={["1rem", "2rem 3.25rem"]} w="100%">
                                 <Text color="white">
-                                    Gas Stream was created
+                                    Crypsydra was created
                                     by <Link href="https://github.com/hal0x2328" target="_blank" color="#0094ff">
                                     @hal0x2328
                                 </Link>, <Link href="https://github.com/melanke" target="_blank"
