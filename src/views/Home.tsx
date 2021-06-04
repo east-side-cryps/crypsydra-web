@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 import Neon, {sc} from "@cityofzion/neon-js";
 import {DEFAULT_NEO_NETWORK_MAGIC, DEFAULT_NEO_RPC_ADDRESS, DEFAULT_SC_SCRIPTHASH} from "../constants";
 import React, {useEffect, useState} from "react";
-import {useWalletConnect} from "../context/WalletConnectContext";
+import {useWalletConnect} from "@cityofzion/wallet-connect-sdk-react";
 import SpinnerWithMessage from "../components/SpinnerWithMessage";
 import {Stream} from "../types/Stream";
 import LiStream from "../components/LiStream";
@@ -26,10 +26,10 @@ export default function Home() {
     useEffect(() => {
         loadMyStreams()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [walletConnectCtx, walletConnectCtx?.accounts])
+    }, [walletConnectCtx, walletConnectCtx.accounts])
 
     const loadMyStreams = async () => {
-        if (!walletConnectCtx?.accounts[0] || loadingMyStreams) return
+        if (!walletConnectCtx.accounts[0] || loadingMyStreams) return
         const [address] = walletConnectCtx.accounts[0].split("@");
 
         setLoadingMyStreams(true)

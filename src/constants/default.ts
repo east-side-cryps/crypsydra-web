@@ -1,4 +1,4 @@
-export const DEFAULT_RELAY_PROVIDER = "wss://relay.walletconnect.org";
+export const DEFAULT_RELAY_PROVIDER = "wss://connect.coz.io:443";
 
 export const DEFAULT_METHODS = ["invokefunction"];
 

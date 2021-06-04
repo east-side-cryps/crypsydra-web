@@ -15,7 +15,7 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper
 } from "@chakra-ui/react";
-import {useWalletConnect} from "../context/WalletConnectContext";
+import {useWalletConnect} from "@cityofzion/wallet-connect-sdk-react";
 import {
     DEFAULT_GAS_SCRIPTHASH,
     DEFAULT_GAS_PRECISION,
@@ -55,19 +55,18 @@ export default function CreateStream() {
     const [loading, setLoading] = useState<string | null>('Checking WalletConnect Session')
 
     useEffect(() => {
-        if (!walletConnectCtx?.loadingSession) {
-            if (!walletConnectCtx?.session) {
+        if (!walletConnectCtx.loadingSession) {
+            if (!walletConnectCtx.session) {
                 history.push('/connectToProceed')
             } else {
                 setLoading(null)
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [walletConnectCtx?.loadingSession, walletConnectCtx?.session])
+    }, [walletConnectCtx.loadingSession, walletConnectCtx.session])
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        if (!walletConnectCtx) return
 
         const txId = await createStream()
         if (!txId) return
@@ -84,7 +83,6 @@ export default function CreateStream() {
     }
 
     const createStream = async () => {
-        if (!walletConnectCtx) return null
 
         const [senderAddress] = walletConnectCtx.accounts[0].split("@")
 
@@ -104,10 +102,7 @@ export default function CreateStream() {
         const endTime = {type: 'Integer', value: new Date(endDatetime).getTime() }
         const args = {type: 'Array', value: [contractMethod, to, startTime, endTime]}
 
-        const resp = await walletConnectCtx.rpcRequest({
-            method: 'invokefunction',
-            params: [gasScriptHash, 'transfer', [from, contract, value, args]],
-        })
+        const resp = await walletConnectCtx.invokeFunction(gasScriptHash, 'transfer', [from, contract, value, args])
 
         if (resp.result.error && resp.result.error.message) {
             toast({

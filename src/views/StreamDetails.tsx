@@ -9,7 +9,7 @@ import {
     DEFAULT_NEO_RPC_ADDRESS,
     DEFAULT_SC_SCRIPTHASH
 } from "../constants";
-import {useWalletConnect} from "../context/WalletConnectContext";
+import {useWalletConnect} from "@cityofzion/wallet-connect-sdk-react";
 import {N3Helper} from "../helpers/N3Helper";
 import WithdrawModal from "../components/modals/WithdrawModal";
 import {ContractParamJson} from "@cityofzion/neon-core/lib/sc";
@@ -158,16 +158,13 @@ export default function StreamDetails() {
 
     const withdraw = async (amountToWithdraw: number) => {
         setWithdrawOpen(false)
-        if (!walletConnectCtx || amountToWithdraw <= 0) return
+        if (amountToWithdraw <= 0) return
         amountToWithdraw = amountToWithdraw * DEFAULT_GAS_PRECISION
 
         const streamId = {type: 'Integer', value: Number(id)}
         const value = {type: 'Integer', value: amountToWithdraw}
 
-        const resp = await walletConnectCtx.rpcRequest({
-            method: 'invokefunction',
-            params: [DEFAULT_SC_SCRIPTHASH, 'withdraw', [streamId, value]],
-        })
+        const resp = await walletConnectCtx.invokeFunction(DEFAULT_SC_SCRIPTHASH, 'withdraw', [streamId, value])
 
         if (resp.result.error && resp.result.error.message) {
             toast({
@@ -213,8 +210,6 @@ export default function StreamDetails() {
     }
 
     const cancelStream = async () => {
-        if (!walletConnectCtx) return
-
         await dialog({
             title: 'Are you sure?',
             text: 'The Gas that was not Streamed will return to Sender\'s Account',
@@ -223,10 +218,7 @@ export default function StreamDetails() {
 
         const streamId = {type: 'Integer', value: Number(id)}
 
-        const resp = await walletConnectCtx.rpcRequest({
-            method: 'invokefunction',
-            params: [DEFAULT_SC_SCRIPTHASH, 'cancelStream', [streamId]],
-        })
+        const resp = await walletConnectCtx.invokeFunction(DEFAULT_SC_SCRIPTHASH, 'cancelStream', [streamId])
 
         if (resp.result.error && resp.result.error.message) {
             toast({

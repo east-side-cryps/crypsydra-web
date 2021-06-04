@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Loader from "../Loader";
 
-import {useWalletConnect} from "../../context/WalletConnectContext";
+import {useWalletConnect} from "@cityofzion/wallet-connect-sdk-react";
 import {
     Flex,
     Text,
@@ -18,11 +18,11 @@ export default function RequestModal() {
   const walletConnectCtx = useWalletConnect()
 
   const handleClose = () => {
-      walletConnectCtx?.setIsPendingApproval(false)
+      walletConnectCtx.setIsPendingApproval(false)
   }
 
   return (
-      <Modal isOpen={!!walletConnectCtx?.isPendingApproval} onClose={handleClose}>
+      <Modal isOpen={!!walletConnectCtx.isPendingApproval} onClose={handleClose}>
           <ModalOverlay/>
           <ModalContent>
               <ModalHeader>{"Pending JSON-RPC Request"}</ModalHeader>

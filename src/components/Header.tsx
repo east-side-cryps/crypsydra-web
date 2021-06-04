@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Flex, Image, Link, Spacer, Spinner, Text, useToast} from "@chakra-ui/react";
-import {useWalletConnect} from "../context/WalletConnectContext";
+import {useWalletConnect} from "@cityofzion/wallet-connect-sdk-react";
 import {matchPath, useLocation, Link as RLink} from "react-router-dom";
 import CopyIcon from "./icons/CopyIcon";
 import copy from "clipboard-copy";
@@ -51,13 +51,13 @@ export default function Header() {
                 </Link>
             </>)}
             <Spacer/>
-            {walletConnectCtx?.loadingSession ? <Spinner/> : (
-                !walletConnectCtx?.session ? (
+            {walletConnectCtx.loadingSession ? <Spinner/> : (
+                !walletConnectCtx.session ? (
                     <Link fontSize={["0.9rem", "1.125rem"]} textAlign="right"
-                          onClick={walletConnectCtx?.onConnect}>Connect your Wallet</Link>
+                          onClick={walletConnectCtx.openPairing}>Connect your Wallet</Link>
                 ) : (
                     <Flex direction="column" align="right">
-                        {walletConnectCtx.accounts.map(account => {
+                        {walletConnectCtx.accounts.map((account: string) => {
                             const [address] = account.split("@");
                             return (
                                 <Flex
@@ -70,7 +70,7 @@ export default function Header() {
                                         <Text fontSize="0.5rem">{walletConnectCtx.session?.peer.metadata.name}</Text>
                                         <Text fontSize="0.8rem">{ellipseAddress(address, 4)}</Text>
                                     </Flex>
-                                    <Link ml="0.6rem" onClick={walletConnectCtx?.disconnect}>
+                                    <Link ml="0.6rem" onClick={walletConnectCtx.disconnect}>
                                         <LogoutIcon boxSize="1.4rem" color="#004e87"/>
                                     </Link>
                                 </Flex>

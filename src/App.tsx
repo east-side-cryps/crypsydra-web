@@ -9,18 +9,33 @@ import {
 } from "@chakra-ui/react"
 import GHIcon from "./components/icons/GHIcon"
 import Home from "./views/Home"
-import {WalletConnectContextProvider} from "./context/WalletConnectContext";
+import {WalletConnectContextProvider} from "@cityofzion/wallet-connect-sdk-react";
 import Header from "./components/Header";
 import ConnectToProceed from "./views/ConnectToProceed";
 import CreateStream from "./views/CreateStream";
 import StreamDetails from "./views/StreamDetails";
 import PairingModal from "./components/modals/PairingModal";
 import RequestModal from "./components/modals/RequestModal";
+import {
+    DEFAULT_APP_METADATA,
+    DEFAULT_CHAIN_ID,
+    DEFAULT_LOGGER,
+    DEFAULT_METHODS,
+    DEFAULT_RELAY_PROVIDER
+} from "./constants";
+
+const wcOptions = {
+    appMetadata: DEFAULT_APP_METADATA,
+    chainId: DEFAULT_CHAIN_ID,
+    logger: DEFAULT_LOGGER,
+    methods: DEFAULT_METHODS,
+    relayServer: DEFAULT_RELAY_PROVIDER
+}
 
 export default function App() {
     return (
         <ChakraProvider>
-            <WalletConnectContextProvider>
+            <WalletConnectContextProvider options={wcOptions}>
                 <Router>
                     <Flex direction="column" w="100vw" minH="100vh">
                         <Header/>
