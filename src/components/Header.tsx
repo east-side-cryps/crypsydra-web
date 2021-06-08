@@ -54,7 +54,7 @@ export default function Header() {
             {walletConnectCtx.loadingSession ? <Spinner/> : (
                 !walletConnectCtx.session ? (
                     <Link fontSize={["0.9rem", "1.125rem"]} textAlign="right"
-                          onClick={walletConnectCtx.openPairing}>Connect your Wallet</Link>
+                          onClick={() => walletConnectCtx.connect()}>Connect your Wallet</Link>
                 ) : (
                     <Flex direction="column" align="right">
                         {walletConnectCtx.accounts.map((account: string) => {

@@ -28,7 +28,7 @@ export default function ConnectToProceed() {
             <Link color="white" bg="#0094ff" m="0.5rem" p={["0.5rem 1rem", "0.8rem 4rem"]}
                   textAlign="center"
                   _hover={{textDecoration: 'none', backgroundColor: '#0081dc'}}
-                  onClick={walletConnectCtx.openPairing}>
+                  onClick={() => walletConnectCtx.connect()}>
                 <Text fontSize="2rem">Connect Wallet</Text>
             </Link>
             <Spacer/>
